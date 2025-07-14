@@ -7,22 +7,12 @@ import (
 	"text/template"
 
 	"github.com/kkyr/go-recipe/pkg/recipe"
+
+	_ "embed"
 )
 
-const recipeTemplate = `# {{.Title}}                                                                                    
-                                                                                                                        
-{{.Description}}                                                                                                        
-
-[Source]({{.Source}})
-                                                                                                                        
-## Ingredients                                                                                                          
-                                                                                                                        
-{{range .Ingredients}}{{println "-" .}}{{end}}                                                                          
-                                                                                                                        
-## Instructions                                                                                                         
-                                                                                                                        
-{{range $index, $instruction := .Instructions}}{{len (printf "a%*s" $index "")}}{{println "." $instruction}}{{end}}     
-`
+//go:embed recipe.tmpl
+var recipeTemplate string
 
 type MDScraper struct {
 	w    io.Writer

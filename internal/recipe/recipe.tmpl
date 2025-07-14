@@ -1,0 +1,13 @@
+# {{.Title}} 
+
+{{.Description}}
+
+[Source]({{.Source}})
+
+## Ingredients
+
+{{range .Ingredients}}{{println "-" .}}{{end}}
+
+## Instructions
+
+{{range $index, $instruction := .Instructions}}{{len (printf "a%*s" $index "")}}{{println "." $instruction}}{{end}}
