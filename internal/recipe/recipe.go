@@ -9,17 +9,19 @@ import (
 	"github.com/kkyr/go-recipe/pkg/recipe"
 )
 
-const recipeTemplate = `# {{.title}}                                                                                    
+const recipeTemplate = `# {{.Title}}                                                                                    
                                                                                                                         
-{{.description}}                                                                                                        
+{{.Description}}                                                                                                        
+
+[Source]({{.Source}})
                                                                                                                         
 ## Ingredients                                                                                                          
                                                                                                                         
-{{range .ingredients}}{{println "-" .}}{{end}}                                                                          
+{{range .Ingredients}}{{println "-" .}}{{end}}                                                                          
                                                                                                                         
 ## Instructions                                                                                                         
                                                                                                                         
-{{range $index, $instruction := .instructions}}{{len (printf "a%*s" $index "")}}{{println "." $instruction}}{{end}}     
+{{range $index, $instruction := .Instructions}}{{len (printf "a%*s" $index "")}}{{println "." $instruction}}{{end}}     
 `
 
 type MDScraper struct {
@@ -31,6 +33,7 @@ type MDScraper struct {
 type cfg struct {
 	tmplStr         string
 	withHugoHeaders bool
+	forced          bool
 }
 
 var defaultCfg = cfg{
@@ -39,8 +42,8 @@ var defaultCfg = cfg{
 }
 
 type recipeData struct {
-	Title, Description        string
-	Ingredients, Instructions []string
+	Source, Title, Description string
+	Ingredients, Instructions  []string
 }
 
 func NewMDScraper(w io.Writer, opts ...Option) (*MDScraper, error) {
@@ -72,26 +75,29 @@ func MDScrape(w io.Writer, url string, opts ...Option) error {
 func (conv *MDScraper) MDScrape(url string) error {
 	rec, err := recipe.ScrapeURL(url)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	var (
 		data recipeData
 		ok   bool
 	)
-	if data.Title, ok = rec.Name(); !ok {
+
+	data.Source = url
+
+	if data.Title, ok = rec.Name(); !ok && !conv.forced {
 		return errors.New("scrape does not contain a recipe name")
 	}
 
-	if data.Description, ok = rec.Description(); !ok {
+	if data.Description, ok = rec.Description(); !ok && !conv.forced {
 		return errors.New("scrape does not contain a recipe description")
 	}
 
-	if data.Ingredients, ok = rec.Ingredients(); !ok {
+	if data.Ingredients, ok = rec.Ingredients(); !ok && !conv.forced {
 		return errors.New("scrape does not contain recipe ingredients")
 	}
 
-	if data.Instructions, ok = rec.Instructions(); !ok {
+	if data.Instructions, ok = rec.Instructions(); !ok && !conv.forced {
 		return errors.New("scrape does not contain recipe instructions")
 	}
 	return conv.tmpl.Execute(os.Stdout, data)
@@ -102,6 +108,12 @@ type Option func(*cfg)
 func WithTemplate(tmpl string) Option {
 	return func(c *cfg) {
 		c.tmplStr = tmpl
+	}
+}
+
+func WithForced(b bool) Option {
+	return func(c *cfg) {
+		c.forced = b
 	}
 }
 
