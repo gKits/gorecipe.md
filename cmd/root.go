@@ -42,7 +42,7 @@ It also supports the usage of Hugo by optionally adding the required headers for
 			w = f
 		}
 
-		if err := recipe.Convert(w, args[0], recipe.WithHugoHeaders(withHugoHeaders)); err != nil {
+		if err := recipe.MDScrape(w, args[0], recipe.WithHugoHeaders(withHugoHeaders)); err != nil {
 			fmt.Println()
 			os.Exit(1)
 		}

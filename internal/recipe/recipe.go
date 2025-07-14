@@ -22,7 +22,7 @@ const recipeTemplate = `# {{.title}}
 {{range $index, $instruction := .instructions}}{{len (printf "a%*s" $index "")}}{{println "." $instruction}}{{end}}     
 `
 
-type Converter struct {
+type MDScraper struct {
 	w    io.Writer
 	tmpl *template.Template
 	cfg
@@ -43,7 +43,7 @@ type recipeData struct {
 	Ingredients, Instructions []string
 }
 
-func NewConverter(w io.Writer, opts ...Option) (*Converter, error) {
+func NewMDScraper(w io.Writer, opts ...Option) (*MDScraper, error) {
 	cfg := defaultCfg
 	for _, opt := range opts {
 		opt(&cfg)
@@ -54,22 +54,22 @@ func NewConverter(w io.Writer, opts ...Option) (*Converter, error) {
 		return nil, err
 	}
 
-	return &Converter{
+	return &MDScraper{
 		w:    w,
 		tmpl: tmpl,
 		cfg:  cfg,
 	}, nil
 }
 
-func Convert(w io.Writer, url string, opts ...Option) error {
-	conv, err := NewConverter(w, opts...)
+func MDScrape(w io.Writer, url string, opts ...Option) error {
+	conv, err := NewMDScraper(w, opts...)
 	if err != nil {
 		return err
 	}
-	return conv.Convert(url)
+	return conv.MDScrape(url)
 }
 
-func (conv *Converter) Convert(url string) error {
+func (conv *MDScraper) MDScrape(url string) error {
 	rec, err := recipe.ScrapeURL(url)
 	if err != nil {
 		panic(err)
