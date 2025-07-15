@@ -53,6 +53,11 @@ It also supports the usage of Hugo by optionally adding the required headers for
 			recipe.WithForced(forced),
 			recipe.WithHugoHeaders(withHugoHeaders),
 		); err != nil {
+			if outPath != "" {
+				if err := os.Remove(outPath); err != nil {
+					fmt.Printf("failed to delete empty file: %s\n", err)
+				}
+			}
 			fmt.Printf("failed to scrape recipe: %s\n", err)
 			os.Exit(1)
 		}
