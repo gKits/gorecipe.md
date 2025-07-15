@@ -96,7 +96,9 @@ type Option func(*cfg)
 
 func WithTemplate(tmpl string) Option {
 	return func(c *cfg) {
-		c.tmplStr = tmpl
+		if tmpl != "" {
+			c.tmplStr = tmpl
+		}
 	}
 }
 

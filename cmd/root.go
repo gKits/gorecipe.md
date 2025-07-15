@@ -49,6 +49,7 @@ It also supports the usage of Hugo by optionally adding the required headers for
 		if err := recipe.MDScrape(
 			w,
 			args[0],
+			recipe.WithTemplate(customTemplate),
 			recipe.WithForced(forced),
 			recipe.WithHugoHeaders(withHugoHeaders),
 		); err != nil {
