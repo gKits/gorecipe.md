@@ -41,6 +41,7 @@ It also supports the usage of Hugo by optionally adding the required headers for
 				fmt.Printf("failed to open file at '%s': %s\n", outPath, err)
 				os.Exit(1)
 			}
+			// FIX: defer will not run due to os.Exit(1)
 			defer f.Close()
 			w = f
 		}

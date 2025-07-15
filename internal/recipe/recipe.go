@@ -3,7 +3,6 @@ package recipe
 import (
 	"errors"
 	"io"
-	"os"
 	"text/template"
 
 	"github.com/kkyr/go-recipe/pkg/recipe"
@@ -90,7 +89,7 @@ func (conv *MDScraper) MDScrape(url string) error {
 	if data.Instructions, ok = rec.Instructions(); !ok && !conv.forced {
 		return errors.New("scrape does not contain recipe instructions")
 	}
-	return conv.tmpl.Execute(os.Stdout, data)
+	return conv.tmpl.Execute(conv.w, data)
 }
 
 type Option func(*cfg)
