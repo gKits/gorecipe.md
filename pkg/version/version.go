@@ -13,7 +13,9 @@ func Version() string {
 
 	ver := "0.0.0-local"
 	time := "0000-00-00"
+	settings := make([]string, len(info.Settings))
 	for _, s := range info.Settings {
+		settings = append(settings, s.Value)
 		switch s.Key {
 		case "vcs", "vcs.modified":
 			ver = s.Value
@@ -26,5 +28,5 @@ func Version() string {
 		}
 	}
 
-	return fmt.Sprintf("v%s build with %s at %s", ver, info.GoVersion, time)
+	return fmt.Sprintf("v%s build with %s at %s: %v", ver, info.GoVersion, time, settings)
 }
