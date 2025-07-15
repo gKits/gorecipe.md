@@ -10,23 +10,12 @@ func Version() string {
 	if !ok {
 		return ""
 	}
-
-	ver := "0.0.0-local"
-	time := "0000-00-00"
-	settings := make([]string, len(info.Settings))
-	for _, s := range info.Settings {
-		settings = append(settings, s.Value)
-		switch s.Key {
-		case "vcs", "vcs.modified":
-			ver = s.Value
-		case "vcs.revision":
-			if ver == "" {
-				ver = s.Value
-			}
-		case "vcs.time":
-			time = s.Value
-		}
+	ver := info.Main.Version
+	if ver == "" {
+		ver = info.Main.Sum
 	}
-
-	return fmt.Sprintf("v%s build with %s at %s: %v", ver, info.GoVersion, time, settings)
+	if ver == "" {
+		ver = "undefined"
+	}
+	return fmt.Sprintf("%s build with %s", ver, info.GoVersion)
 }
