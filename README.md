@@ -1,3 +1,5 @@
+[![GitHub Release](https://img.shields.io/github/v/release/gkits/gorecipe.md?include_prereleases&style=for-the-badge)](https://github.com/gKits/gorecipe.md/releases)
+
 <div align="center">
   <a href="https://github.com/gkits/gorecipe.md">
 <img src="assets/logo.png" alt="Logo" width="240" height="240">
