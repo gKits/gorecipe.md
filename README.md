@@ -1,6 +1,7 @@
 [![GitHub Release](https://img.shields.io/github/v/release/gkits/gorecipe.md?include_prereleases&style=for-the-badge)](https://github.com/gKits/gorecipe.md/releases)
 [![GitHub License](https://img.shields.io/github/license/gkits/gorecipe.md?style=for-the-badge)](https://github.com/gkits/gorecipe.md?tab=MIT-1-ov-file)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/gkits/gorecipe.md?style=for-the-badge&logo=go)
+[![Hugo Blog](https://img.shields.io/badge/example-hugo%20blog-fe34b1?style=for-the-badge)](https://gkits.de/recipes)
 
 <div align="center">
   <a href="https://github.com/gkits/gorecipe.md">
